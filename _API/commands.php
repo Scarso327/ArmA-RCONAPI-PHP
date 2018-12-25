@@ -166,4 +166,14 @@ class commands {
             die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
         }
     }
+
+    public static function reloadScripts($isLocal = false) {
+        if($isLocal) {
+            $connection = new connection;
+            $connection->makeRequest("loadScripts");
+            $connection->closeSocket();
+        } else {
+            die("PROTECTED COMMAND");
+        }
+    }
 }
