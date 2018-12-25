@@ -96,6 +96,31 @@ class commands {
         }
     }
 
+    // When making a request through URL you're unable to change or pass parameters to these files and so this command
+    // only works if you can change the isLocal variable
+    public static function banOffline($isLocal = false, $player, $time = 0, $reason = "Banned") {
+        if($isLocal) {
+            if(!is_string($player)) {
+                die("Error: The player must be a string!");
+            }
+            
+            if(!is_string($reason) || !is_int($time)) {
+                die("Error: The reason must be a string and the time must be an intger!");
+            }
+
+            if($reason == "") {
+                $reason = "No Reason Given";
+            }
+
+            $connection = new connection;
+            $connection->makeRequest("addBan $player $time $reason");
+            $connection->closeSocket();
+            self::saveBans(true);
+        } else {
+            die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
+        }
+    }
+
     public static function saveBans($isLocal = false) {
         if($isLocal) {
             $connection = new connection;
