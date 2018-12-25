@@ -4,7 +4,7 @@
 class core {
 
     private $command = null;
-    private $params = array();
+    public $params = array();
 
     public function __construct() {
         self::URLSetup();

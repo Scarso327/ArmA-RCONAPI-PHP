@@ -12,8 +12,7 @@ If you only wish to use this API locally then you can set 'is-online' to false a
 
 ```php
 include_once '_API/includes.php';
-$command = new commands;
-$command->getPlayers();
+commands::getPlayers();
 ```
 
 All settings for the server (IP Address, RCON Port and RCON Password) can be set in the 'settings.php' file.
