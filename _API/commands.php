@@ -46,4 +46,28 @@ class commands {
             die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
         }
     } 
+
+    // When making a request through URL you're unable to change or pass parameters to these files and so this command
+    // only works if you can change the isLocal variable
+    public static function kickPlayer($isLocal = false, $player, $reason) {
+        if($isLocal) {
+            if(!is_int($player)) {
+                die("Error: The player must be an intger!");
+            }
+
+            if(!is_string($reason)) {
+                die("Error: The reason must be a string!");
+            }
+
+            if($reason == "") {
+                $reason = "No Reason Given";
+            }
+
+            $connection = new connection;
+            $connection->makeRequest("kick ".$player.$reason);
+            $connection->closeSocket();
+        } else {
+            die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
+        }
+    }
 }
