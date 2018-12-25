@@ -147,6 +147,16 @@ class commands {
         }
     }
 
+    public static function reloadBans($isLocal = false) {
+        if($isLocal) {
+            $connection = new connection;
+            $connection->makeRequest("loadBans");
+            $connection->closeSocket();
+        } else {
+            die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
+        }
+    }
+
     public static function saveBans($isLocal = false) {
         if($isLocal) {
             $connection = new connection;
