@@ -7,7 +7,7 @@ class commands {
      * Is Public: Yes (Can be called without providing authentication)
      * 
      */
-    public static function getPlayers() {
+    public static function getPlayers($return = false) {
         $connection = new connection;
         $players = $connection->makeRequest("players", true);
         $connection->closeSocket(); // NOT NEEDED ANYMORE SO KILL IT OFF PLEASE K THANKS
@@ -15,7 +15,11 @@ class commands {
         $players = core::cleanList($players);
         preg_match_all("#(\d+)\s+(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+\b)\s+(\d+)\s+([0-9a-fA-F]+)\(\w+\)\s([\S ]+)$#im", $players, $str);
         $players = core::formatList($str);
-        header('Content-Type: application/json');
-        echo json_encode($players);
+        if($return) {
+            return json_encode($players);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($players);
+        }
     }
 }
