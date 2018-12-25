@@ -37,7 +37,16 @@ class core {
         }
     }
 
-    // Again, credits to schaeferfelix on github (I had no idea how to do this...)
+    /**
+     * Converts BE text "array" list to array
+     *
+     * @author nerdalertdk (https://github.com/nerdalertdk)
+     * @link https://github.com/Nizarii/arma-rcon-class-php/issues/4 The related Github issue
+     *
+     * @param $str array
+     *
+     * @return array
+     */
     public function formatList($str)
     {
         // Remove first array
@@ -52,6 +61,20 @@ class core {
             }
         }
         return $result;
+    }
+    /**
+     * Remove control characters
+     *
+     * @author nerdalertdk (https://github.com/nerdalertdk)
+     * @link https://github.com/Nizarii/arma-rcon-class-php/issues/4 The related GitHub issue
+     *
+     * @param $str string
+     *
+     * @return string
+     */
+    public function cleanList($str)
+    {
+        return preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', $str);
     }
 }
 

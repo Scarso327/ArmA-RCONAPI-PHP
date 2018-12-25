@@ -17,7 +17,7 @@ If this is false you'll have to call for commands like this and won't be able to
     $command->{$this->command}();
 
 If true you can request it using the above method and this one:
-    $url = "http://api.example.com/getPlayers/"; 
+    $url = "http://api.example.com/getPlayers/?key=BLAH"; 
     $json_object= file_get_contents($url);
     $json_decoded = json_decode($json_object);
 */
