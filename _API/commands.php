@@ -121,6 +121,21 @@ class commands {
         }
     }
 
+    public static function removeBan($isLocal = false, $ban) {
+        if($isLocal) {
+            if(!is_int($ban)) {
+                die("Error: The banid must be an intger!");
+            }
+            
+            $connection = new connection;
+            $connection->makeRequest("removeBan $ban");
+            $connection->closeSocket();
+            self::saveBans(true);
+        } else {
+            die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
+        }
+    }
+
     public static function saveBans($isLocal = false) {
         if($isLocal) {
             $connection = new connection;
