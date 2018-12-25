@@ -22,4 +22,28 @@ class commands {
             echo json_encode($players);
         }
     }
+
+    // When making a request through URL you're unable to change or pass parameters to these files and so this command
+    // only works if you can change the isLocal variable
+    public static function sendMessage($isLocal = false, $target, $msg) {
+        if($isLocal) {
+            if(!is_int($target)) {
+                die("Error: The player must be an intger!");
+            }
+
+            if(!is_string($msg)) {
+                die("Error: The reason must be a string!");
+            }
+
+            if($msg != "") {
+                $connection = new connection;
+                $connection->makeRequest("say ".$target.$msg);
+                $connection->closeSocket();
+            } else {
+                die("Error: No Message Input...");
+            }
+        } else {
+            die("PROTECTED COMMAND"); // Would throw an Exception here but I want people to be able to get "feedback" for checking
+        }
+    } 
 }
