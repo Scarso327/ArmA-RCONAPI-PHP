@@ -2,11 +2,6 @@
 
 class commands {
 
-    /**
-     * 
-     * Is Public: Yes (Can be called without providing authentication)
-     * 
-     */
     public static function getPlayers($return = false) {
         $connection = new connection;
         $players = $connection->makeRequest("players", true);
@@ -71,6 +66,22 @@ class commands {
         }
     }
 
+    public static function getBans($return = false) {
+        $connection = new connection;
+        $bans = $connection->makeRequest("bans", true);
+        $connection->closeSocket(); // NOT NEEDED ANYMORE SO KILL IT OFF PLEASE K THANKS
+        
+        $bans = core::cleanList($bans);
+        preg_match_all("#(\d+)\s+([0-9a-fA-F]+)\s([perm|\d]+)\s([\S ]+)$#im", $bans, $str);
+        $bans = core::formatList($str);
+        if($return) {
+            return json_encode($bans);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($bans);
+        }
+    }
+
     // When making a request through URL you're unable to change or pass parameters to these files and so this command
     // only works if you can change the isLocal variable
     public static function banPlayer($isLocal = false, $player, $time = 0, $reason = "Banned") {
@@ -126,7 +137,7 @@ class commands {
             if(!is_int($ban)) {
                 die("Error: The banid must be an intger!");
             }
-            
+
             $connection = new connection;
             $connection->makeRequest("removeBan $ban");
             $connection->closeSocket();
