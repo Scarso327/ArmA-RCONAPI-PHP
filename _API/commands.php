@@ -176,4 +176,14 @@ class commands {
             die("PROTECTED COMMAND");
         }
     }
+
+    public static function reloadEvents($isLocal = false) {
+        if($isLocal) {
+            $connection = new connection;
+            $connection->makeRequest("loadEvents");
+            $connection->closeSocket();
+        } else {
+            die("PROTECTED COMMAND");
+        }
+    }
 }
