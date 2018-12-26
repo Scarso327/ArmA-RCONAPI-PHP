@@ -1,15 +1,15 @@
 <?php
 
-class commands {
+class Commands {
 
     public static function getPlayers($return = false) {
-        $connection = new connection;
+        $connection = new Connection;
         $players = $connection->makeRequest("players", true);
         $connection->closeSocket(); // NOT NEEDED ANYMORE SO KILL IT OFF PLEASE K THANKS
         
-        $players = core::cleanList($players);
+        $players = Core::cleanList($players);
         preg_match_all("#(\d+)\s+(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+\b)\s+(\d+)\s+([0-9a-fA-F]+)\(\w+\)\s([\S ]+)$#im", $players, $str);
-        $players = core::formatList($str);
+        $players = Core::formatList($str);
         if($return) {
             return json_encode($players);
         } else {
@@ -31,7 +31,7 @@ class commands {
             }
 
             if($msg != "") {
-                $connection = new connection;
+                $connection = new Connection;
                 $connection->makeRequest("say ".$target.$msg);
                 $connection->closeSocket();
             } else {
@@ -58,7 +58,7 @@ class commands {
                 $reason = "No Reason Given";
             }
 
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("kick $player $reason");
             $connection->closeSocket();
         } else {
@@ -67,13 +67,13 @@ class commands {
     }
 
     public static function getBans($return = false) {
-        $connection = new connection;
+        $connection = new Connection;
         $bans = $connection->makeRequest("bans", true);
         $connection->closeSocket(); // NOT NEEDED ANYMORE SO KILL IT OFF PLEASE K THANKS
         
-        $bans = core::cleanList($bans);
+        $bans = Core::cleanList($bans);
         preg_match_all("#(\d+)\s+([0-9a-fA-F]+)\s([perm|\d]+)\s([\S ]+)$#im", $bans, $str);
-        $bans = core::formatList($str);
+        $bans = Core::formatList($str);
         if($return) {
             return json_encode($bans);
         } else {
@@ -98,7 +98,7 @@ class commands {
                 $reason = "No Reason Given";
             }
 
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("ban $player $time $reason");
             $connection->closeSocket();
             self::saveBans(true);
@@ -123,7 +123,7 @@ class commands {
                 $reason = "No Reason Given";
             }
 
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("addBan $player $time $reason");
             $connection->closeSocket();
             self::saveBans(true);
@@ -138,7 +138,7 @@ class commands {
                 die("Error: The banid must be an intger!");
             }
 
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("removeBan $ban");
             $connection->closeSocket();
             self::saveBans(true);
@@ -149,7 +149,7 @@ class commands {
 
     public static function reloadBans($isLocal = false) {
         if($isLocal) {
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("loadBans");
             $connection->closeSocket();
         } else {
@@ -159,7 +159,7 @@ class commands {
 
     public static function saveBans($isLocal = false) {
         if($isLocal) {
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("writeBans");
             $connection->closeSocket();
         } else {
@@ -169,7 +169,7 @@ class commands {
 
     public static function reloadScripts($isLocal = false) {
         if($isLocal) {
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("loadScripts");
             $connection->closeSocket();
         } else {
@@ -179,7 +179,7 @@ class commands {
 
     public static function reloadEvents($isLocal = false) {
         if($isLocal) {
-            $connection = new connection;
+            $connection = new Connection;
             $connection->makeRequest("loadEvents");
             $connection->closeSocket();
         } else {
